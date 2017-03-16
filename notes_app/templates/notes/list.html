@@ -7,7 +7,7 @@
 
 <ol>
 {% for note in note_list %}
-<li><a href="#">{{ note.title|default:note.id }}</a></li>
+<li><a href="{% url 'note_update' note.id %}">{{ note.title|default:note.id }}</a></li>
 {% endfor %}
 </ol>
 

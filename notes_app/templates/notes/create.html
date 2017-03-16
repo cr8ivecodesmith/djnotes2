@@ -6,10 +6,10 @@
 
 <form action="" method="post">
     {% csrf_token %}
-    <input type="text" class="form-control clear-focus-highlight"
-        name="txtTitle" value="{{ note.title }}" placeholder="Enter title...">
+    <input type="text"
+        name="txtTitle" placeholder="Enter title...">
     <br>
-    <textarea class="form-control clear-focus-highlight"
+    <textarea
         name="txtNote" rows="10em"
         placeholder="Enter note..."></textarea>
     <br>

@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View
 
@@ -33,3 +34,31 @@ class NoteCreate(View):
                 note=note
             )
         return redirect('note_list')
+
+
+class NoteUpdate(View):
+    template_name = 'notes/update.html'
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        try:
+            note_id = kwargs.get('pk')
+            note = Note.objects.get(id=note_id)
+            context['note'] = note
+        except Note.DoesNotExist:
+            raise Http404
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        note = context.get('note')
+        note_title = request.POST.get('txtTitle', '').strip()
+        note_note = request.POST.get('txtNote', '').strip()
+        note.title = note_title
+        note.note = note_note
+        note.save()
+        return render(request, self.template_name, context)

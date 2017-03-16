@@ -367,10 +367,10 @@ notes_app/templates/notes/create.html
 
 <form action="" method="post">
     {% csrf_token %}
-    <input type="text" class="form-control clear-focus-highlight"
-        name="txtTitle" value="{{ note.title }}" placeholder="Enter title...">
+    <input type="text"
+        name="txtTitle" placeholder="Enter title...">
     <br>
-    <textarea class="form-control clear-focus-highlight"
+    <textarea
         name="txtNote" rows="10em"
         placeholder="Enter note..."></textarea>
     <br>
@@ -415,6 +415,39 @@ Edit:
 notes_app/notes/views.py
 ```
 
+```python
+from django.http import Http404
+from django.shortcuts import render, redirect
+from django.views.generic import View
+...
+class NoteUpdate(View):
+    template_name = 'notes/update.html'
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        try:
+            note_id = kwargs.get('pk')
+            note = Note.objects.get(id=note_id)
+            context['note'] = note
+        except Note.DoesNotExist:
+            raise Http404
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        note = context.get('note')
+        note_title = request.POST.get('txtTitle', '').strip()
+        note_note = request.POST.get('txtNote', '').strip()
+        note.title = note_title
+        note.note = note_note
+        note.save()
+        return render(request, self.template_name, context)
+```
+
 
 Edit:
 ```
@@ -422,6 +455,25 @@ notes_app/templates/notes/update.html
 ```
 
 ```html
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Update Note {{ note.id }}</h1>
+<hr>
+
+<form action="{% url 'note_update' note.id %}" method="post">
+    {% csrf_token %}
+    <input type="text"
+        name="txtTitle" value="{{ note.title }}" placeholder="Enter title...">
+    <br>
+    <textarea
+        name="txtNote" rows="10em"
+        placeholder="Enter note...">{{ note.note }}</textarea>
+    <br>
+    <input type="submit" value="Save">
+    <a href="{% url 'note_list' %}">Cancel</a>
+</form>
+{% endblock content %}
 ```
 
 
@@ -431,8 +483,25 @@ notes_app/notes_app/urls.py
 ```
 
 ```python
+...
+    url(r'^create/$', notes_views.NoteCreate.as_view(), name='note_create'),
+    url(r'^(?P<pk>\d+)/change/$', notes_views.NoteUpdate.as_view(), name='note_update'),
+...
 ```
 
+
+Edit:
+```
+notes_app/templates/notes/list.html
+```
+
+```html
+...
+{% for note in note_list %}
+<li><a href="{% url 'note_update' note.id %}">{{ note.title|default:note.id }}</a></li>
+{% endfor %}
+...
+```
 
 ### 07) Create the note delete view, template, and url route
 
