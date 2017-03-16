@@ -3,7 +3,7 @@ djnotes2
 
 ## Hello Django
 
-### Install Django and run it for the first time
+### 01) Install Django and run it for the first time
 
 ```
 > pip install django
@@ -20,7 +20,7 @@ Open browser to: http://127.0.0.1:8000
 ```
 
 
-### Create a super user and visit the admin page
+### 02) Create a super user and visit the admin page
 
 ```
 hello_django > python manage.py createsuperuser
@@ -34,7 +34,7 @@ Open browser to: http://127.0.0.1:8000/admin
 ```
 
 
-### Create a `home` app
+### 03) Create a `home` app
 
 ```
 hello_django > python manage.py startapp home
