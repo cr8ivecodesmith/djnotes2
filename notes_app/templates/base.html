@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Simple Notes</title>
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'styles.css' %}">
+</head>
+<body>
+    {% block content %}
+    {% endblock content %}
+
+    <!-- Custom scripts -->
+    <script src="{% static 'scripts.js' %}">
+    </script>
+</body>
+</html>

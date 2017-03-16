@@ -240,6 +240,23 @@ notes_app/notes/views.py
 ```
 
 ```python
+from django.shortcuts import render
+from django.views.generic import View
+
+from .models import Note
+
+
+class NoteList(View):
+    template_name = 'notes/list.html'
+
+    def get_context_data(self):
+        context = {}
+        context['note_list'] = Note.objects.all()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
 ```
 
 
@@ -249,7 +266,25 @@ notes_app/templates/base.html
 ```
 
 ```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Simple Notes</title>
 
+    <!-- Custom styles -->
+    <link rel="stylesheet" type="text/css"
+        href="{% static 'styles.css' %}">
+</head>
+<body>
+    {% block content %}
+    {% endblock content %}
+
+    <!-- Custom scripts -->
+    <script src="{% static 'scripts.js' %}">
+    </script>
+</body>
+</html>
 ```
 
 
@@ -259,6 +294,19 @@ notes_app/templates/notes/list.html
 ```
 
 ```html
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Notes</h1>
+<hr>
+
+<ol>
+{% for note in note_list %}
+<li><a href="#">{{ note.title|default:note.id }}</a></li>
+{% endfor %}
+</ol>
+
+{% endblock content %}
 ```
 
 
@@ -268,6 +316,13 @@ notes_app/notes_app/urls.py
 ```
 
 ```python
+...
+from notes import views as notes_views
+
+urlpatterns = [
+    url(r'^$', notes_views.NoteList.as_view(), name='note_list'),
+    url(r'^admin/', admin.site.urls),
+]
 ```
 
 
