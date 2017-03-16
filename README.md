@@ -139,3 +139,24 @@ hello_django > python manage.py runserver
 ```
 
 Open browser to: http://127.0.0.1:8000
+
+
+## Notes App
+
+### 01) Start a new Django project and create the initial scaffolds
+
+```
+> django-admin startproject notes_app
+> cd notes_app
+notes_app > mkdir -p templates/notes
+notes_app > touch templates/base.html
+notes_app > touch templates/notes/list.html
+notes_app > touch templates/notes/view.html
+notes_app > touch templates/notes/create.html
+notes_app > touch templates/notes/update.html
+notes_app > touch templates/notes/delete.html
+notes_app > mkdir assets
+notes_app > touch assets/scripts.js
+notes_app > touch assets/styles.css
+notes_app > python manage.py startproject notes
+```
