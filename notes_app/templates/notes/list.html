@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Notes</h1>
 <hr>
+<a href="{% url 'note_create' %}">New note</a>
 
 <ol>
 {% for note in note_list %}

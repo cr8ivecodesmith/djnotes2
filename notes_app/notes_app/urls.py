@@ -20,5 +20,6 @@ from notes import views as notes_views
 
 urlpatterns = [
     url(r'^$', notes_views.NoteList.as_view(), name='note_list'),
+    url(r'^create/', notes_views.NoteCreate.as_view(), name='note_create'),
     url(r'^admin/', admin.site.urls),
 ]

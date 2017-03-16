@@ -333,6 +333,25 @@ Edit:
 notes_app/notes/views.py
 ```
 
+```python
+class NoteCreate(View):
+    template_name = 'notes/create.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        title = request.POST.get('txtTitle', '')
+        note = request.POST.get('txtNote', '')
+        if title or note:
+            Note.objects.create(
+                title=title,
+                note=note
+            )
+        return redirect('note_list')
+```
+
 
 Edit:
 ```
@@ -340,6 +359,25 @@ notes_app/templates/notes/create.html
 ```
 
 ```html
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Create Note</h1>
+<hr>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" class="form-control clear-focus-highlight"
+        name="txtTitle" value="{{ note.title }}" placeholder="Enter title...">
+    <br>
+    <textarea class="form-control clear-focus-highlight"
+        name="txtNote" rows="10em"
+        placeholder="Enter note..."></textarea>
+    <br>
+    <input type="submit" value="Save">
+    <a href="{% url 'note_list' %}">Cancel</a>
+</form>
+{% endblock content %}
 ```
 
 
@@ -349,6 +387,24 @@ notes_app/notes_app/urls.py
 ```
 
 ```python
+...
+    url(r'^$', notes_views.NoteList.as_view(), name='note_list'),
+    url(r'^create/', notes_views.NoteCreate.as_view(), name='note_create'),
+...
+```
+
+
+Edit:
+```
+notes_app/templates/notes/list.html
+```
+
+```html
+...
+<h1>Notes</h1>
+<hr>
+<a href="{% url 'note_create' %}">New note</a>
+...
 ```
 
 
