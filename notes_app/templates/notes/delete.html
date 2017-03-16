@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Delete Note {{ note.id }}?</h1>
+<hr>
+
+<form action="{% url 'note_delete' note.id %}" method="post">
+    {% csrf_token %}
+    <input type="text"
+        name="txtTitle" value="{{ note.title }}" placeholder="Enter title...">
+    <br>
+    <textarea
+        name="txtNote" rows="10em"
+        placeholder="Enter note...">{{ note.note }}</textarea>
+    <br>
+    <input type="submit" value="Delete">
+    <a href="{% url 'note_update' note.id %}">Cancel</a>
+</form>
+{% endblock content %}

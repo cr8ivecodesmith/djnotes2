@@ -510,6 +510,19 @@ Edit:
 notes_app/notes/views.py
 ```
 
+```python
+...
+class NoteDelete(NoteUpdate):
+    template_name = 'notes/delete.html'
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        note = context.get('note')
+        note.delete()
+        return redirect('note_list')
+...
+```
+
 
 Edit:
 ```
@@ -517,6 +530,25 @@ notes_app/templates/notes/delete.html
 ```
 
 ```html
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Delete Note {{ note.id }}?</h1>
+<hr>
+
+<form action="{% url 'note_delete' note.id %}" method="post">
+    {% csrf_token %}
+    <input type="text"
+        name="txtTitle" value="{{ note.title }}" placeholder="Enter title...">
+    <br>
+    <textarea
+        name="txtNote" rows="10em"
+        placeholder="Enter note...">{{ note.note }}</textarea>
+    <br>
+    <input type="submit" value="Delete">
+    <a href="{% url 'note_update' note.id %}">Cancel</a>
+</form>
+{% endblock content %}
 ```
 
 
@@ -526,4 +558,22 @@ notes_app/notes_app/urls.py
 ```
 
 ```python
+...
+    url(r'^(?P<pk>\d+)/change/$', notes_views.NoteUpdate.as_view(), name='note_update'),
+    url(r'^(?P<pk>\d+)/delete/$', notes_views.NoteDelete.as_view(), name='note_delete'),
+...
+```
+
+
+Edit:
+```
+notes_app/templates/notes/update.html
+```
+
+```html
+...
+    <input type="submit" value="Save">
+    <a href="{% url 'note_delete' note.id %}">Delete</a>
+    <a href="{% url 'note_list' %}">Cancel</a>
+...
 ```

@@ -14,6 +14,7 @@
         placeholder="Enter note...">{{ note.note }}</textarea>
     <br>
     <input type="submit" value="Save">
+    <a href="{% url 'note_delete' note.id %}">Delete</a>
     <a href="{% url 'note_list' %}">Cancel</a>
 </form>
 {% endblock content %}

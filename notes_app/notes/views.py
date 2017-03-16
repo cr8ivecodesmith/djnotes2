@@ -62,3 +62,13 @@ class NoteUpdate(View):
         note.note = note_note
         note.save()
         return render(request, self.template_name, context)
+
+
+class NoteDelete(NoteUpdate):
+    template_name = 'notes/delete.html'
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        note = context.get('note')
+        note.delete()
+        return redirect('note_list')
