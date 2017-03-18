@@ -1,7 +1,7 @@
 djnotes2
 ========
 
-Feedback: https://goo.gl/forms/utNMS1ypBe2s9H892
+Feedback: https://goo.gl/forms/utNMS1ypBe2s9H892  
 Presenter entry: https://goo.gl/forms/88HUlZ5bmVa2QTUg2
 
 ## Hello Django
