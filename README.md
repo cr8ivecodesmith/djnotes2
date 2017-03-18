@@ -1,6 +1,9 @@
 djnotes2
 ========
 
+Feedback: https://goo.gl/forms/utNMS1ypBe2s9H892
+
+
 ## Hello Django
 
 ### 01) Install Django and run it for the first time
