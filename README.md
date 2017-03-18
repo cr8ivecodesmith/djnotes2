@@ -158,7 +158,7 @@ notes_app > touch templates/notes/delete.html
 notes_app > mkdir assets
 notes_app > touch assets/scripts.js
 notes_app > touch assets/styles.css
-notes_app > python manage.py startproject notes
+notes_app > python manage.py startapp notes
 ```
 
 
